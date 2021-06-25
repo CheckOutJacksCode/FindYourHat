@@ -35,7 +35,7 @@ class Field {
         let randRow = Math.floor(Math.random()*width);
         let randCol = Math.floor(Math.random()*height);
         newField[randRow][randCol] = hat;
-//        newField[0][0] = pathCharacter;
+        newField[startx][starty] = pathCharacter;
         return newField;
     }
     printField () {
@@ -43,14 +43,14 @@ class Field {
             console.log(arr.join(' '));
         })
     }
-    play (rowStart, colStart) {
-        let rowIndex = rowStart;
-        let colIndex = colStart;
+    play (rowIndex, colIndex) {
+        console.log(rowIndex, colIndex);
         let currentCell = this.field[rowIndex][colIndex];
         while (true) {
             let move = prompt("Make a move; up, down, right, left: ");
             if (move === 'l') {
                 colIndex -= 1;
+                console.log(colIndex);
                 if (colIndex < 0) {
                     console.log('loser!');
                     break;
@@ -64,7 +64,9 @@ class Field {
                 }
             }
             else if (move === 'r') {
+                console.log(colIndex);
                 colIndex += 1;
+                console.log(colIndex);
                 if (colIndex >= width) {
                     console.log('loser!');
                     break;
@@ -122,7 +124,6 @@ class Field {
     solveField (row, col) {
         //console.log(this.field[row][col]);
         if (this.field[row][col] === hat) {
-            console.log('WWWWWWWWIIIIIIIIIIIIIIIIIIIIIIIIIIIIIINNNNNNNNNNNNNNNNNNNNNN');
             return true;
         }
         else {
@@ -184,11 +185,14 @@ class Field {
 const height = prompt('pick a height: ');
 const width = prompt('pick a width: ');
 const percentage = prompt('percentage of holes: ');
+const startx = parseInt(prompt('starting row: '));
+const starty = parseInt(prompt('starting column: '));
 const field = new Field(Field.generateField(height, width, percentage));
+//this.field[startx][starty] = pathCharacter;
 field.printField();
-//field.play();
-if (field.solveField(2, 2)) {
-    field.play(2, 2);
+
+if (field.solveField(startx, starty)) {
+    field.play(startx, starty);
 } else {
     console.log('field is unsolvable.');
 }
